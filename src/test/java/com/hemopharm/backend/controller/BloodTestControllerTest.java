@@ -6,16 +6,23 @@ import com.hemopharm.backend.model.BloodTest;
 import com.hemopharm.backend.model.BloodTestResult;
 import com.hemopharm.backend.model.enums.BloodTestStatus;
 import com.hemopharm.backend.service.BloodTestService;
+import com.hemopharm.backend.service.PdfExtractionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.InputStream;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +34,9 @@ class BloodTestControllerTest {
 
     @MockitoBean
     private BloodTestService bloodTestService;
+
+    @MockitoBean
+    private PdfExtractionService pdfExtractionService;
 
     @Test
     void getBloodTests_returnsTests() throws Exception {
@@ -71,5 +81,26 @@ class BloodTestControllerTest {
 
         mockMvc.perform(get("/api/blood-tests/9"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void extract_returnsParsedResults() throws Exception {
+        BloodParameter parameter = new BloodParameter();
+        parameter.setName("Hemoglobin");
+
+        BloodTestResult result = new BloodTestResult();
+        result.setValue(14.2);
+        result.setUnit("g/dL");
+        result.setParameter(parameter);
+        when(pdfExtractionService.extractResults(eq(1L), any(InputStream.class)))
+                .thenReturn(List.of(result));
+
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf",
+                MediaType.APPLICATION_PDF_VALUE, "%PDF-1.4".getBytes());
+
+        mockMvc.perform(multipart("/api/blood-tests/1/extract").file(file))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].value").value(14.2))
+                .andExpect(jsonPath("$[0].unit").value("g/dL"));
     }
 }
