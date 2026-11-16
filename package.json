@@ -1,0 +1,8 @@
+{
+  "name": "hemopharm-backend",
+  "private": true,
+  "scripts": {
+    "test": "./mvnw test",
+    "start": "./mvnw spring-boot:run"
+  }
+}
