@@ -1,7 +1,7 @@
 package com.hemopharm.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hemopharm.backend.model.enums.Gender;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -24,6 +24,7 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
