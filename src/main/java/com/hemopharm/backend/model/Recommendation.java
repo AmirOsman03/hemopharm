@@ -1,6 +1,7 @@
 package com.hemopharm.backend.model;
 
 import com.hemopharm.backend.model.enums.RecommendationPriority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,6 +23,7 @@ public class Recommendation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "analysis_id", nullable = false)
     private Analysis analysis;

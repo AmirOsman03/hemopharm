@@ -1,5 +1,6 @@
 package com.hemopharm.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hemopharm.backend.model.enums.Gender;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,7 @@ public class ReferenceRange {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "parameter_id", nullable = false)
     private BloodParameter parameter;
