@@ -1,6 +1,6 @@
 package com.hemopharm.backend.controller;
 
-import com.hemopharm.backend.model.BloodTest;
+import com.hemopharm.backend.dto.BloodTestResponse;
 import com.hemopharm.backend.model.User;
 import com.hemopharm.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}/blood-tests")
-    public List<BloodTest> getBloodTests(@PathVariable Long id) {
-        return userService.getBloodTests(id);
+    public List<BloodTestResponse> getBloodTests(@PathVariable Long id) {
+        return userService.getBloodTests(id).stream()
+                .map(BloodTestResponse::from)
+                .toList();
     }
 }

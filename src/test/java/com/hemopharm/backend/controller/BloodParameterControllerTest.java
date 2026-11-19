@@ -2,7 +2,6 @@ package com.hemopharm.backend.controller;
 
 import com.hemopharm.backend.exception.NotFoundException;
 import com.hemopharm.backend.model.BloodParameter;
-import com.hemopharm.backend.model.ReferenceRange;
 import com.hemopharm.backend.service.BloodParameterService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,24 +26,23 @@ class BloodParameterControllerTest {
     private BloodParameterService bloodParameterService;
 
     @Test
-    void getParameters_returnsParametersWithRanges() throws Exception {
-        ReferenceRange range = new ReferenceRange();
-        range.setMinValue(13.5);
-        range.setMaxValue(17.5);
-        range.setUnit("g/dL");
-
+    void getParameters_returnsParametersWithMaxLimit() throws Exception {
         BloodParameter parameter = new BloodParameter();
         parameter.setId(1L);
-        parameter.setName("Hemoglobin");
-        parameter.setDefaultUnit("g/dL");
-        parameter.setReferenceRanges(List.of(range));
+        parameter.setName("Глукоза");
+        parameter.setDefaultUnit("mmol/L");
+        parameter.setCategory("Глуциден статус");
+        parameter.setMinLimit(3.9);
+        parameter.setMaxLimit(6.1);
         when(bloodParameterService.getParameters()).thenReturn(List.of(parameter));
 
         mockMvc.perform(get("/api/parameters"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Hemoglobin"))
-                .andExpect(jsonPath("$[0].referenceRanges[0].maxValue").value(17.5))
-                .andExpect(jsonPath("$[0].referenceRanges[0].parameter").doesNotExist());
+                .andExpect(jsonPath("$[0].name").value("Глукоза"))
+                .andExpect(jsonPath("$[0].category").value("Глуциден статус"))
+                .andExpect(jsonPath("$[0].minLimit").value(3.9))
+                .andExpect(jsonPath("$[0].maxLimit").value(6.1))
+                .andExpect(jsonPath("$[0].referenceRanges").doesNotExist());
     }
 
     @Test

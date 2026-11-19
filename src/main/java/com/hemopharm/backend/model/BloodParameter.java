@@ -1,17 +1,12 @@
 package com.hemopharm.backend.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -30,6 +25,10 @@ public class BloodParameter {
 
     private String defaultUnit;
 
-    @OneToMany(mappedBy = "parameter", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ReferenceRange> referenceRanges = new ArrayList<>();
+    private String category;
+
+    /** Healthy range, from config/parameter-limits.json. */
+    private Double minLimit;
+
+    private Double maxLimit;
 }

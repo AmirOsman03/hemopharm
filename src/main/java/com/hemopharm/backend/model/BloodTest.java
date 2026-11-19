@@ -1,5 +1,6 @@
 package com.hemopharm.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hemopharm.backend.model.enums.BloodTestStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,6 +36,10 @@ public class BloodTest {
     @Column(nullable = false)
     private String fileName;
 
+    private String laboratoryName;
+
+    private LocalDateTime testDate;
+
     @Column(nullable = false)
     private LocalDateTime uploadDate;
 
@@ -45,6 +50,7 @@ public class BloodTest {
     @OneToMany(mappedBy = "bloodTest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BloodTestResult> results = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "bloodTest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Analysis> analyses = new ArrayList<>();
 }
