@@ -1,6 +1,7 @@
 package com.hemopharm.backend.model;
 
 import com.hemopharm.backend.model.enums.AnalysisStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,6 +29,7 @@ public class Analysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "blood_test_id", nullable = false)
     private BloodTest bloodTest;

@@ -1,0 +1,11 @@
+{
+  "Глукоза": { "minLimit": 3.9, "maxLimit": 6.1, "category": "Глуциден статус" },
+  "Триглицериди": { "minLimit": 0.68, "maxLimit": 1.8, "category": "Липиден статус" },
+  "Вкупен холестерол": { "minLimit": 2.24, "maxLimit": 6.8, "category": "Липиден статус" },
+  "Уреа": { "minLimit": 1.7, "maxLimit": 8.3, "category": "Деградациони продукти" },
+  "Креатинин": { "minLimit": 72.0, "maxLimit": 127.0, "category": "Деградациони продукти" },
+  "Серумско железо": { "minLimit": 10.6, "maxLimit": 22.3, "category": "Електролитен статус" },
+  "ALT": { "minLimit": 9.0, "maxLimit": 43.0, "category": "Ензимски статус" },
+  "AST": { "minLimit": 10.0, "maxLimit": 34.0, "category": "Ензимски статус" },
+  "pH": { "minLimit": 4.8, "maxLimit": 7.2, "category": "Уринарен статус" }
+}
